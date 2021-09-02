@@ -1,0 +1,58 @@
+site_name: Qiu's doc space
+site_author: Qiu(aschenmaker)
+site_url: https://docs.cqs.es
+# Repository
+repo_name: 'aschenmaker/docs'
+repo_url: 'https://github.com/aschenmaker/docs'
+edit_uri: 'blob/master/docs/'
+
+# Copyright
+copyright: 'Copyright &copy; 2021 - 2022 aschenmaker'
+
+
+theme:
+  name: 'material'
+  language: 'zh'
+  palette:
+    primary: 'orange'
+    accent: 'purple'
+  icon:
+    logo: 'material/cloud'
+  features:
+    - tabs
+  font:
+    text: 'Fira Sans'
+    code: 'Fira Mono'
+remote_branch: gh-pages
+remote_name: origin
+
+extra:
+  search:
+    lang: 
+      - zh-CN
+    tokenizer: '[\s\-\.]+'
+  disqus: 'costcost'
+  copyright: 'CC BY-NC-SA 4.0'
+  
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+
+markdown_extensions:
+  - admonition                                   # 注解块支持
+  - pymdownx.arithmatex                          # 数学公式的TeX语法支持
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:                              # 表情支持
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:                           # 任务清单支持
+      custom_checkbox: true
+  - pymdownx.tilde
+  - meta                       
