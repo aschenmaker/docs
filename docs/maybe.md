@@ -1,3 +1,16 @@
+# 或许你也需要这样的站点
+
+> 十分钟快速搭建，个人知识管理网站
+
+## 配置mkdoc
+https://blog.keybrl.com/professional-2018-05-19-mkdocs-blog/
+
+## 配置github action，自动部署
+https://www.ixiqin.com/2021/01/how-to-use-a-lot-action-automatically-deploy-mkdocs/
+
+## 附件
+我的配置文件，供你参考
+```yml
 site_name: Qiu's doc space
 site_author: Qiu(aschenmaker)
 site_url: https://docs.cqs.es
@@ -72,14 +85,5 @@ markdown_extensions:
   - pymdownx.tasklist:                           # 任务清单支持
       custom_checkbox: true
   - pymdownx.tilde
-  - meta                       
-
-nav:
-  - 首页: index.md
-  - 算法:
-    - 排序: algo/sort/sort.md
-  - 翻译计划:
-    - 通过漫画-认识Kubernete: translate/tp1.md
-    - Shazam是如何工作的: translate/tp2.md
-    - 使用golang处理百万请求: translate/tp3.md
-  - 或许你也需要这样的站点: maybe.md
+  - meta  
+```
