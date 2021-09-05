@@ -2,24 +2,29 @@
 
 !!! abstract "十分钟快速搭建"
     1. 配置mkdocs
-    2. 挤成&部署
+    2. 持续集成&部署
+        3. 部署到服务器
         1. 部署到GitHub Pages
         2. 部署到对象存储
-        3. 服务器
+        
 
 ## 配置mkdoc
 参考这篇文章，写的很详细，具体的内容我也不写了。
 
+介绍了如何使用以及配置主题。
+
 https://blog.keybrl.com/professional-2018-05-19-mkdocs-blog/
 
-## 配置github action，自动部署
+## 自动部署
 参考这一篇文章，提供了自动部署到GitHub Pages方法。
 
 https://www.ixiqin.com/2021/01/how-to-use-a-lot-action-automatically-deploy-mkdocs/
 
 
 ## 附件
-到这里你已经拥有了这样一个网站，可以参考我的配置来设置你喜欢的样式，添加你需要的功能。
+到这里你已经拥有了这样一个网站，并且可以通过Github Action自动部署。
+
+同时你也可以参考我的配置来设置你喜欢的样式，添加你需要的功能。
 
 见以下配置文件[^1]
 

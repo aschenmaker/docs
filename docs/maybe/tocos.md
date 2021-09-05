@@ -3,6 +3,12 @@
 
 在`.github/workflows`创建Action文件
 ## 部署到Github Pages
+
+参考这一篇文章，提供了自动部署到GitHub Pages方法。
+
+https://www.ixiqin.com/2021/01/how-to-use-a-lot-action-automatically-deploy-mkdocs/
+
+
 创建`pulish_gh.yml`
 ```yaml
 name: Publish docs via GitHub Pages
@@ -31,14 +37,17 @@ jobs:
 ## 部署到Tencent COS
 
 !!! tip "解决访问速度慢的问题" 
-    Github Pages方便易用，但是访问速度非常慢。
-    通常的解决方法是
+    Github Pages方便易用，但是在国内访问速度非常慢。
+    通常的解决方法是：
 
     - 通过CDN加速源站的方式，使用GitHub提供的IP对网站进行加速。
     - 直接将静态文件推送腾讯云COS或者阿里云OSS上，使用静态网站访问。
 
 
-好处是快，但是需要开通对象存储服务，以及需要已经备案的域名。
+此方法，需要你：
+
+1. 拥有自己的已经备案的域名，
+1. 开通对象存储服务，我使用的是腾讯云的COS，所使用的Github Action也是面向腾讯云的。
 
 同样创建 `pulish_cos.yml`
 ```yaml
