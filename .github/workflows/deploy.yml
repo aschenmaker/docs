@@ -15,8 +15,8 @@ jobs:
       - name: Deploy to tencent osss
         uses: aschenmaker/mkdocs-deploy-tencentoss@master
         env:
-          config_file: mkdocs.yml
-          secret_id: ${{ secrets.SECRET_ID }}
-          secret_key: ${{ secrets.SECRET_KEY }}
-          bucket: ${{ secrets.BUCKET }}
-          region: ap-nanjing
+          CONFIG_FILE: mkdocs.yml
+          SECRET_ID: ${{ secrets.SECRET_ID }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          BUCKET: ${{ secrets.BUCKET }}
+          REGION: ap-nanjing
