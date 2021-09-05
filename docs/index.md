@@ -15,3 +15,7 @@ I'm a Go and Javascript developer.
 ### Find Me
 - <https://github.com/aschemaker>
 - <https://cqs.es>
+
+### Site Url
+- via Github Pages <https://docs.cqs.es>
+- via Tencent Oss <https://docs.lyneee.com>
