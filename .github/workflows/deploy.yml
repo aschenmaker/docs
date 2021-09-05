@@ -1,0 +1,22 @@
+name: Deploy to tencent osss
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v2
+
+      - name: Deploy to tencent osss
+        uses: aschenmaker/mkdocs-deploy-tencentoss
+        env:
+          config_file: mkdocs.yml
+          secret_id: ${{ secrets.SECRET_ID }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          bucket: ${{ secrets.BUCKET }}
+          region: ap-nanjing
