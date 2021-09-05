@@ -46,7 +46,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy to tencent osss
-        uses: aschenmaker/mkdocs-deploy-tencentcos@master
+        uses: aschenmaker/mkdocs-deploy-tencentcos@v0.1.0-release
         env:
           CONFIG_FILE: mkdocs.yml
           SECRET_ID: ${{ secrets.SECRET_ID }}
