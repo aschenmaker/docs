@@ -1,9 +1,10 @@
-# 使用github action 同时部署到 Github Pages 和 腾讯云COS
+# 使用Github action 同时部署到 Github Pages 和 腾讯云COS
+
 
 在`.github/workflows`创建Action文件
 ## 部署到Github Pages
-创建pulish_gh.yml
-```yml
+创建`pulish_gh.yml`
+```yaml
 name: Publish docs via GitHub Pages
 on:
   push:
@@ -28,9 +29,19 @@ jobs:
 ```
 
 ## 部署到Tencent COS
+
+!!! tip "解决访问速度慢的问题" 
+    Github Pages方便易用，但是访问速度非常慢。
+    通常的解决方法是
+
+    - 通过CDN加速源站的方式，使用GitHub提供的IP对网站进行加速。
+    - 直接将静态文件推送腾讯云COS或者阿里云OSS上，使用静态网站访问。
+
+
 好处是快，但是需要开通对象存储服务，以及需要已经备案的域名。
+
 同样创建 `pulish_cos.yml`
-```yml
+```yaml
 name: Deploy to tencent osss
 on:
   push:
@@ -54,6 +65,9 @@ jobs:
           BUCKET: ${{ secrets.BUCKET }}
           REGION: ap-nanjing
 ```
-需要腾讯云对应的API SECRET，最好通过创建子用户设置到github仓库的secret中。
-细节查看: 访问[设置Github action](https://github.com/marketplace/actions/deploy-mkdocs-to-tencent-cos)
 
+
+!!! note "配置该GitHub Action"
+    需要腾讯云对应的API SECRET，为了确保安全性，最好通过创建子用户生成API SECRET，再设置到github仓库的secret中。
+
+    具体[设置Github action](https://github.com/marketplace/actions/deploy-mkdocs-to-tencent-cos)
