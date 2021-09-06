@@ -80,11 +80,20 @@ markdown_extensions:
 
 nav:
   - 首页: index.md
-  - 算法:
-    - 排序: algo/sort/sort.md
-  - 数据库:
+  - 计算机基础:
+    - 操作系统: cs/opsys/op.md
+    - 计算机网络: cs/network/network.md
+    - linux: cs/linux/linux.md
+  - 算法&数据结构:
+    - 算法:
+      - 排序: algo/sort/sort.md
+  - 编程语言: 
+    - Golang:
+      - 内存逃逸: pl/golang/memesacape.md
+  - 组件:
     - mysql:
       - Innodb中事务隔离级别和锁的关系: db/mysql/innodb-lock.md
+      - 快速mysql摘要: db/mysql/mysql.md
   - 翻译计划:
     - 通过漫画-认识Kubernete: translate/tp1.md
     - Shazam是如何工作的: translate/tp2.md

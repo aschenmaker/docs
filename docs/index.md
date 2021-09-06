@@ -2,6 +2,12 @@
 
 Here are my personal note about Computer Science, software... notes.
 
+!!! tip "What you can get from here."
+    - Algorithms and data structures
+    - Operating system, computer network, Linux, etc
+    - Infrastructure, such as mysql, redis, etcd, k8s, docker, etc
+    - Programming language, such as golang, trust, JavaScript, etc
+    - and my personal translation plans.
 
 
 ### About Me 
