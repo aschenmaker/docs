@@ -82,7 +82,8 @@ nav:
   - 首页: index.md
   - 计算机基础:
     - 操作系统: cs/opsys/op.md
-    - 计算机网络: cs/network/network.md
+    - 计算机网络: 
+      - TCP: cs/network/tcp.md
     - linux: cs/linux/linux.md
   - 算法&数据结构:
     - 算法:
