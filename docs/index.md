@@ -19,7 +19,7 @@ I'm a Go and Javascript developer.
 - 📫 How to reach me: aschen@cug.edu.cn
 
 ### Find Me
-- <https://github.com/aschemaker>
+- <https://github.com/aschenmaker>
 - <https://cqs.es>
 
 ### Site Url

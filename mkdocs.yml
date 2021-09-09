@@ -91,6 +91,7 @@ nav:
   - 编程语言: 
     - Golang:
       - 内存逃逸: pl/golang/memesacape.md
+      - gmp状态详解: pl/golang/gmp.md
   - 组件:
     - mysql:
       - Innodb中事务隔离级别和锁的关系: db/mysql/innodb-lock.md
