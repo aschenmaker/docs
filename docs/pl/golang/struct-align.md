@@ -42,7 +42,7 @@ go官方文档中，对具体的大小进行了描述
 ```go
 // https://golang.org/ref/spec#Size_and_alignment_guarantees
 type                                 size in bytes
-byte, uint8, int8                     1
+byte, uint8, int8,bool                1
 uint16, int16                         2
 uint32, int32, float32                4
 uint64, int64, float64, complex64     8
@@ -58,6 +58,7 @@ bool, uint8, int8         1
 uint16, int16             2
 uint32, int32             4
 float32, complex64        4
+int64, float64						8
 arrays                    depend on element types 取决于元素个数
 structs                   depend on field types 取决于结构体的字段类型
 other types               size of a native word 取决于机器的字长
@@ -116,7 +117,7 @@ T2中，size = 16
 
 ```go
 type Part1 struct {
-    a bool // 2byte
+    a bool // 1byte
     b int32 // 4byte
     c int8 // 1byte
     d int64 // 8byte
@@ -126,7 +127,7 @@ type Part1 struct {
 type Part2 struct {
     e byte // 1byte
     c int8 // 1byte
-    a bool // 2byte
+    a bool // 1byte
     b int32 // 4byte
     d int64 // 8byte
 }
