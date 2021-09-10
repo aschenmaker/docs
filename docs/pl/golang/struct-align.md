@@ -49,7 +49,7 @@ uint64, int64, float64, complex64     8
 complex128                           16
 ```
 
-不同的那些对齐保证如下。
+不同的那些对齐保证如下，值的注意的是complex 64 他虽然长度是8字节，但是是按照4字节来进行对齐的。
 
 ```go
 type                      alignment guarantee
@@ -58,7 +58,7 @@ bool, uint8, int8         1
 uint16, int16             2
 uint32, int32             4
 float32, complex64        4
-int64, float64						8
+int64, float64			  8
 arrays                    depend on element types 取决于元素个数
 structs                   depend on field types 取决于结构体的字段类型
 other types               size of a native word 取决于机器的字长
