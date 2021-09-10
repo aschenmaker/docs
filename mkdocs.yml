@@ -97,6 +97,8 @@ nav:
     - mysql:
       - Innodb中事务隔离级别和锁的关系: db/mysql/innodb-lock.md
       - 快速mysql摘要: db/mysql/mysql.md
+    - redis:
+      - Redis实现分布式锁锁: db/redis/lock.md
   - 翻译计划:
     - 通过漫画-认识Kubernete: translate/tp1.md
     - Shazam是如何工作的: translate/tp2.md
