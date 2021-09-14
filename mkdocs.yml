@@ -44,6 +44,9 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/aschenmaker
+    - icon: fontawesome/brands/safari
+      link: https://cqs.es
+      name: homepage of me 
   search:
     lang: 
       - zh-CN
