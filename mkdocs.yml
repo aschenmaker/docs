@@ -104,10 +104,13 @@ nav:
       - 快速mysql摘要: db/mysql/mysql.md
     - redis:
       - Redis实现分布式锁锁: db/redis/lock.md
-  - 翻译计划:
-    - 通过漫画-认识Kubernete: translate/tp1.md
-    - Shazam是如何工作的: translate/tp2.md
-    - 使用golang处理百万请求: translate/tp3.md
+  - litte blog:
+    - 翻译计划:
+      - 通过漫画-认识Kubernete: translate/tp1.md
+      - Shazam是如何工作的: translate/tp2.md
+      - 使用golang处理百万请求: translate/tp3.md
+    - otther:
+      - 从if-else地狱到状态机流转: translate/re/fsm-1.md
   - 或许你也需要这样的站点: 
     - 十分钟快速创建mkdocs: maybe/maybe.md
     - 使用腾讯云COS部署: maybe/tocos.md
