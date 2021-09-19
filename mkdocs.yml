@@ -91,6 +91,8 @@ nav:
   - 算法&数据结构:
     - 算法:
       - 排序: algo/sort/sort.md
+    - 数据结构:
+      - 堆以及用go实现: algo/alg/heap.md
   - 编程语言: 
     - Golang:
       - 内存逃逸: pl/golang/memesacape.md
