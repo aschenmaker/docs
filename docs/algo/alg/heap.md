@@ -194,7 +194,7 @@ func (h *Heap) Down(i0, count int) {
 
 ## 5最后贴上代码
 
-<https://gist.github.com/aschenmaker/e81419898e4f12cc475c83eab68e2a21.js>
+<https://gist.github.com/aschenmaker/e81419898e4f12cc475c83eab68e2a21>
 
 <script src="https://gist.github.com/aschenmaker/e81419898e4f12cc475c83eab68e2a21.js"></script>
 
