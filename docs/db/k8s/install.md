@@ -27,11 +27,11 @@
 
 为什么需要禁止swap？
 
-首先，swap会严重影响性能，虚拟内存在磁盘上进行访问的效率会大大下降（内存、IO）。
+1. 首先，swap会严重影响性能，虚拟内存在磁盘上进行访问的效率会大大下降（内存、IO）。
 
-另外，开启了swap，通过cgroup进行切分的内存就会失效
+2. 另外，开启了swap，通过cgroup进行切分的内存就会失效
 
-可以参考这个Issuehttps://github.com/kubernetes/kubernetes/issues/53533
+可以参考这个Issue:  <https://github.com/kubernetes/kubernetes/issues/53533>
 
 通过`swapon --show`可以产看当前的swap分区
 
