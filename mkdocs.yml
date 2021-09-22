@@ -101,6 +101,8 @@ nav:
     - Golang的底层实现:
       - interface的实现: pl/golang-imp/interface.md
   - 组件:
+    - kubernetes: 
+      - 在实验室安装Kubernetes: db/k8s/install.md
     - mysql:
       - Innodb中事务隔离级别和锁的关系: db/mysql/innodb-lock.md
       - 快速mysql摘要: db/mysql/mysql.md
