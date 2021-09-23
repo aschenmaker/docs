@@ -315,6 +315,17 @@ kube-proxy-xp42n                1/1     Running   0          53s     192.168.1.1
 kube-scheduler-305-1            1/1     Running   1          82m     192.168.1.151   305-1    <none>           <none>
 ```
 
+最后
+
+```shell
+sys-1@305-1:~$ kubectl get nodes
+NAME    STATUS   ROLES                  AGE   VERSION
+305-1   Ready    control-plane,master   21h   v1.22.2
+305-4   Ready    <none>                 19h   v1.22.2
+305-6   Ready    <none>                 19h   v1.22.2
+sys-2   Ready    <none>                 20h   v1.22.2
+```
+
 ## 06至此
 
 搭建完成，总结一下有几个方面
