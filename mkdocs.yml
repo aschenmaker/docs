@@ -108,6 +108,8 @@ nav:
       - 快速mysql摘要: db/mysql/mysql.md
     - redis:
       - Redis实现分布式锁锁: db/redis/lock.md
+    - kafka:
+      - 快速kafka摘要: db/kafka/inaction.md
   - litte blog:
     - 翻译计划:
       - 通过漫画-认识Kubernete: translate/tp1.md
