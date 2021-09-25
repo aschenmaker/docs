@@ -83,11 +83,14 @@ markdown_extensions:
 
 nav:
   - 首页: index.md
-  - 计算机基础:
+  - 基础&理论:
     - 操作系统: cs/opsys/op.md
     - 计算机网络: 
       - TCP: cs/network/tcp.md
     - linux: cs/linux/linux.md
+    - 分布式:
+      - CAP理论: cs/distributed/cap.md
+      - 分布式一致性算法: cs/distributed/alo.md
   - 算法&数据结构:
     - 算法:
       - 排序: algo/sort/sort.md
@@ -115,7 +118,7 @@ nav:
       - 通过漫画-认识Kubernete: translate/tp1.md
       - Shazam是如何工作的: translate/tp2.md
       - 使用golang处理百万请求: translate/tp3.md
-    - otther:
+    - other:
       - 从if-else地狱到状态机流转: translate/re/fsm-1.md
   - 或许你也需要这样的站点: 
     - 十分钟快速创建mkdocs: maybe/maybe.md
