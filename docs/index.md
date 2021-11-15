@@ -16,8 +16,9 @@ I'm a Go and Javascript developer.
 
 - 🔭 I’m currently studying at China University of Geoscience(Wuhan)
 - 🌱 I’m currently majoying in **Software Engneering**
-- 📫 How to reach me: aschen@cug.edu.cn
-- 😈 Via Wechat: iiiinev
+- 📫 How to reach me: 
+    - Via Email: aschen@cug.edu.cn
+    - 😈 Via Wechat: iiiinev
 
 ### Find Me
 - <https://github.com/aschenmaker>
