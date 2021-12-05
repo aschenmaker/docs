@@ -1,0 +1,2104 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Qiu(aschenmaker)">
+      
+      
+        <link rel="canonical" href="https://docs.cqs.es/db/k8s/install/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.0.3">
+    
+    
+      
+        <title>在实验室安装Kubernetes - Qiu's doc space</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.62128196.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.9204c3b2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,400i,700%7CFira+Mono&display=fallback">
+        <style>:root{--md-text-font:"Fira Sans";--md-code-font:"Fira Mono"}</style>
+      
+    
+    
+    <script>function __md_scope(e,t,_){return new URL(_||(t===localStorage?"../../..":"../../.."),location).pathname+"."+e}function __md_get(e,t=localStorage,_){return JSON.parse(t.getItem(__md_scope(e,t,_)))}function __md_set(e,t,_=localStorage,o){try{_.setItem(__md_scope(e,_,o),JSON.stringify(t))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ubuntu2004kubernetes" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Qiu&#39;s doc space" class="md-header__button md-logo" aria-label="Qiu's doc space" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.03A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.03A6.004 6.004 0 0 0 0 14a6 6 0 0 0 6 6h13a5 5 0 0 0 5-5c0-2.64-2.05-4.78-4.65-4.97z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Qiu's doc space
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              在实验室安装Kubernetes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aschenmaker/docs/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aschenmaker/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      首页
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../cs/opsys/op/" class="md-tabs__link">
+        基础&理论
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../algo/sort/sort/" class="md-tabs__link">
+        算法&数据结构
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../pl/golang/memesacape/" class="md-tabs__link">
+        编程语言
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        组件
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../translate/tp1/" class="md-tabs__link">
+        litte blog
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../maybe/maybe/" class="md-tabs__link">
+        或许你也需要这样的站点
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Qiu&#39;s doc space" class="md-nav__button md-logo" aria-label="Qiu's doc space" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.03A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.03A6.004 6.004 0 0 0 0 14a6 6 0 0 0 6 6h13a5 5 0 0 0 5-5c0-2.64-2.05-4.78-4.65-4.97z"/></svg>
+
+    </a>
+    Qiu's doc space
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aschenmaker/docs/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aschenmaker/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          基础&理论
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="基础&理论" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          基础&理论
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/opsys/op/" class="md-nav__link">
+        操作系统
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2">
+          计算机网络
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="计算机网络" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          计算机网络
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/network/tcp/" class="md-nav__link">
+        TCP
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/linux/linux/" class="md-nav__link">
+        linux
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_4" type="checkbox" id="__nav_2_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_4">
+          分布式
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="分布式" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          分布式
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/distributed/cap/" class="md-nav__link">
+        CAP理论
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/distributed/alo/" class="md-nav__link">
+        分布式一致性算法
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          算法&数据结构
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="算法&数据结构" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          算法&数据结构
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_1">
+          算法
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="算法" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          算法
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algo/sort/sort/" class="md-nav__link">
+        排序
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          数据结构
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="数据结构" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          数据结构
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algo/alg/heap/" class="md-nav__link">
+        堆以及用go实现
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          编程语言
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="编程语言" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          编程语言
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Golang
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Golang" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Golang
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/golang/memesacape/" class="md-nav__link">
+        内存逃逸
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/golang/gmp/" class="md-nav__link">
+        gmp状态详解
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/golang/struct-align/" class="md-nav__link">
+        Golang内存对齐
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          Golang的底层实现
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Golang的底层实现" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Golang的底层实现
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/golang-imp/interface/" class="md-nav__link">
+        interface的实现
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/golang-imp/gmp/" class="md-nav__link">
+        gmp代码解释
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          组件
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="组件" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          组件
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_1">
+          kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="kubernetes" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          kubernetes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          在实验室安装Kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        在实验室安装Kubernetes
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#01" class="md-nav__link">
+    01环境介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#02" class="md-nav__link">
+    02准备工作
+  </a>
+  
+    <nav class="md-nav" aria-label="02准备工作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#swap" class="md-nav__link">
+    禁用交换空间swap
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosts" class="md-nav__link">
+    配置hosts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    换源
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#k8s" class="md-nav__link">
+    添加k8s镜像
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    docker
+  </a>
+  
+    <nav class="md-nav" aria-label="docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker_1" class="md-nav__link">
+    安装docker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_2" class="md-nav__link">
+    docker换源
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_3" class="md-nav__link">
+    docker代理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubelet-docker" class="md-nav__link">
+    解决kubelet 和docker 资源隔离不一致
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grub" class="md-nav__link">
+    配置grub
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#03k8s-master" class="md-nav__link">
+    03安装k8s master节点
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#04-slave" class="md-nav__link">
+    04将 slave 从节点加入
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#05" class="md-nav__link">
+    05接入网络
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#06" class="md-nav__link">
+    06至此
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_2" type="checkbox" id="__nav_5_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_2">
+          mysql
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="mysql" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          mysql
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mysql/innodb-lock/" class="md-nav__link">
+        Innodb中事务隔离级别和锁的关系
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mysql/mysql/" class="md-nav__link">
+        快速mysql摘要
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_3" type="checkbox" id="__nav_5_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_3">
+          redis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="redis" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_3">
+          <span class="md-nav__icon md-icon"></span>
+          redis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../redis/lock/" class="md-nav__link">
+        Redis实现分布式锁锁
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_4" type="checkbox" id="__nav_5_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_4">
+          kafka
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="kafka" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_4">
+          <span class="md-nav__icon md-icon"></span>
+          kafka
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kafka/inaction/" class="md-nav__link">
+        快速kafka摘要
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          litte blog
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="litte blog" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          litte blog
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" type="checkbox" id="__nav_6_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_1">
+          翻译计划
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="翻译计划" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          翻译计划
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../translate/tp1/" class="md-nav__link">
+        通过漫画-认识Kubernete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../translate/tp2/" class="md-nav__link">
+        Shazam是如何工作的
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../translate/tp3/" class="md-nav__link">
+        使用golang处理百万请求
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_2" type="checkbox" id="__nav_6_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2">
+          somethings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="somethings" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          somethings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../translate/sharing/mac-app/" class="md-nav__link">
+        我在mac下用什么
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_3" type="checkbox" id="__nav_6_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_3">
+          other
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="other" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_3">
+          <span class="md-nav__icon md-icon"></span>
+          other
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../translate/re/fsm-1/" class="md-nav__link">
+        从if-else地狱到状态机流转
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          或许你也需要这样的站点
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="或许你也需要这样的站点" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          或许你也需要这样的站点
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../maybe/maybe/" class="md-nav__link">
+        十分钟快速创建mkdocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../maybe/tocos/" class="md-nav__link">
+        使用腾讯云COS部署
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../maybe/webify/" class="md-nav__link">
+        使用腾讯云Webify进行部署
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#01" class="md-nav__link">
+    01环境介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#02" class="md-nav__link">
+    02准备工作
+  </a>
+  
+    <nav class="md-nav" aria-label="02准备工作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#swap" class="md-nav__link">
+    禁用交换空间swap
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosts" class="md-nav__link">
+    配置hosts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    换源
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#k8s" class="md-nav__link">
+    添加k8s镜像
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    docker
+  </a>
+  
+    <nav class="md-nav" aria-label="docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker_1" class="md-nav__link">
+    安装docker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_2" class="md-nav__link">
+    docker换源
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_3" class="md-nav__link">
+    docker代理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubelet-docker" class="md-nav__link">
+    解决kubelet 和docker 资源隔离不一致
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grub" class="md-nav__link">
+    配置grub
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#03k8s-master" class="md-nav__link">
+    03安装k8s master节点
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#04-slave" class="md-nav__link">
+    04将 slave 从节点加入
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#05" class="md-nav__link">
+    05接入网络
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#06" class="md-nav__link">
+    06至此
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/aschenmaker/docs/blob/master/docs/db/k8s/install.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+<h1 id="ubuntu2004kubernetes">在Ubuntu20.04集群上安装Kubernetes学习集群</h1>
+<p>在公司实习的时候，有免费的Kubernetes集群可以使用。最近回到了学校，想要继续进行学习，考虑到成本，不可能去云厂商租一个集群。</p>
+<p>刚好，实验室，有五台闲置的机器，于是上手，搭建一个集群。</p>
+<h2 id="01">01环境介绍</h2>
+<ul>
+<li>系统：<a href="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/20.04.3/ubuntu-20.04.3-live-server-amd64.iso">ubuntu-20.04.3-live-server-amd64</a></li>
+<li>内存：4G</li>
+<li>CPU：</li>
+</ul>
+<p>其中<code>k-5</code>节点被我拿来跑旁路由了，所以这里采用了一主四从的形式进行部署。</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>主机名</th>
+<th>IP地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Master</td>
+<td>k-1</td>
+<td>192.168.1.151</td>
+</tr>
+<tr>
+<td>Slave</td>
+<td>k-2</td>
+<td>192.168.1.152</td>
+</tr>
+<tr>
+<td>Slave</td>
+<td>k-4</td>
+<td>192.168.1.154</td>
+</tr>
+<tr>
+<td>Slave</td>
+<td>k-6</td>
+<td>192.168.1.156</td>
+</tr>
+</tbody>
+</table>
+<p>如果是自己在实验室进行部署的话，需要对IP地址进行固定，以及换源等等。</p>
+<h2 id="02">02准备工作</h2>
+<h3 id="swap">禁用交换空间swap</h3>
+<p>为什么需要禁止swap？</p>
+<ol>
+<li>
+<p>首先，swap会严重影响性能，虚拟内存在磁盘上进行访问的效率会大大下降（内存、IO）。</p>
+</li>
+<li>
+<p>另外，开启了swap，通过cgroup进行切分的内存就会失效</p>
+</li>
+</ol>
+<p>可以参考这个Issue:  <a href="https://github.com/kubernetes/kubernetes/issues/53533">https://github.com/kubernetes/kubernetes/issues/53533</a></p>
+<p>通过<code>swapon --show</code>可以产看当前的swap分区</p>
+<div class="highlight"><pre><span></span><code>sys-2@sys-2:~$ swapon --show
+NAME      TYPE SIZE USED PRIO
+/swap.img file <span class="m">3</span>.8G   0B   -2
+
+sys-2@sys-2:~$  sudo swapoff -a
+</code></pre></div>
+<p>编辑<code>/etc/fstab</code>文件，注释掉引用swap的行，保存并重启后输入<code>sudo swapoff -a</code>即可。</p>
+<h3 id="hosts">配置hosts</h3>
+<div class="highlight"><pre><span></span><code>sys-2@sys-2:~$ cat /etc/hosts
+<span class="c1"># for kubernetes hosts</span>
+<span class="m">192</span>.168.1.151 k-master
+<span class="m">192</span>.168.1.152 k-2
+<span class="m">192</span>.168.1.154 k-3
+<span class="m">192</span>.168.1.155 k-4
+<span class="m">192</span>.168.1.156 k-6
+</code></pre></div>
+<h3 id="_1">换源</h3>
+<p>这里使用阿里镜像站的源，这个并不重要</p>
+<div class="highlight"><pre><span></span><code>sys-2@sys-2:~$  cat /etc/apt/sources.list
+<span class="c1"># 系统源</span>
+deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+</code></pre></div>
+<h3 id="k8s">添加k8s镜像</h3>
+<p>访问：<a href="https://mirrors.aliyun.com/kubernetes/">https://mirrors.aliyun.com/kubernetes/</a></p>
+<div class="highlight"><pre><span></span><code>sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get install -y apt-transport-https
+curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg <span class="p">|</span> sudo apt-key add - 
+cat /etc/apt/sources.list.d/kubernetes.list<span class="s">&lt;&lt;EOF</span>
+<span class="s">deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main</span>
+<span class="s">EOF</span>  
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+</code></pre></div>
+<p>这里安装三个工具： sudo apt-get install -y <code>kubelet</code> <code>kubeadm</code> <code>kubectl</code></p>
+<h3 id="docker">docker</h3>
+<h4 id="docker_1">安装docker</h4>
+<p>首先需要安装docker</p>
+<div class="highlight"><pre><span></span><code>sudo apt  install docker.io
+</code></pre></div>
+<h4 id="docker_2">docker换源</h4>
+<p>使用七牛云作为镜像源</p>
+<div class="highlight"><pre><span></span><code>sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <span class="s">&lt;&lt;-&#39;EOF&#39;</span>
+<span class="s">{</span>
+<span class="s">  &quot;registry-mirrors&quot;: [&quot;https://reg-mirror.qiniu.com/&quot;],</span>
+<span class="s">  &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;] # 这一行是</span>
+<span class="s">}</span>
+<span class="s">EOF</span> 
+</code></pre></div>
+<h4 id="docker_3">docker代理</h4>
+<p>配置镜像pull代理，镜像拉去需要配置代理以提高速度。这里我是讲代理服务器配置到了我的局域网旁路由里。</p>
+<p>在执行<code>docker pull</code>时，是由守护进程<code>dockerd</code>来执行。 因此，代理需要配在<code>dockerd</code>的环境中。 而这个环境，则是受<code>systemd</code>所管控，因此实际是<code>systemd</code>的配置。</p>
+<div class="highlight"><pre><span></span><code>sudo mkdir -p /etc/systemd/system/docker.service.d
+sudo touch /etc/systemd/system/docker.service.d/proxy.conf
+
+sudo vim /etc/systemd/system/docker.service.d/proxy.conf
+</code></pre></div>
+<p>在这个<code>proxy.conf</code>文件（可以是任意<code>*.conf</code>的形式）中，添加以下内容：</p>
+<div class="highlight"><pre><span></span><code><span class="k">[Service]</span>
+<span class="na">Environment</span><span class="o">=</span><span class="s">&quot;HTTP_PROXY=http://192.168.1.191:7893/&quot;</span>
+<span class="na">Environment</span><span class="o">=</span><span class="s">&quot;HTTPS_PROXY=http://192.168.1.191:7893/&quot;</span>
+</code></pre></div>
+<h4 id="kubelet-docker">解决kubelet 和docker 资源隔离不一致</h4>
+<p>kubelet默认的隔离驱动是systemd，但是docker默认的驱动为cgroups，所以我们需要进行指定。</p>
+<p>继续编辑dockerd的配置，讲cgroup的隔离驱动设置为<code>systemd</code></p>
+<p><code>sudo vim /etc/docker/daemon.json</code></p>
+<div class="highlight"><pre><span></span><code>&quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;]
+</code></pre></div>
+<p>最后，重启docker</p>
+<div class="highlight"><pre><span></span><code>sudo systemctl daemon-reload
+sudo systemctl restart docker
+</code></pre></div>
+<h3 id="grub">配置grub</h3>
+<p>修改 GRUB_CMDLINE_LINUX="" 修改成下述內容</p>
+<div class="highlight"><pre><span></span><code>GRUB_CMDLINE_LINUX=&quot;cgroup_enable=memory swapaccount=1&quot;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo vim /etc/default/grub
+sudo update-grub
+</code></pre></div>
+<p>最后重启服务器</p>
+<div class="highlight"><pre><span></span><code>sudo reboot
+</code></pre></div>
+<h2 id="03k8s-master">03安装k8s master节点</h2>
+<p>到这里已经可以愉快的装Kubernetes了</p>
+<div class="highlight"><pre><span></span><code>kubeadm init --pod-network-cidr<span class="o">=</span><span class="m">10</span>.244.0.0/16 --apiserver-advertise-address<span class="o">=</span><span class="m">192</span>.168.1.151
+</code></pre></div>
+<p>你需要将<code>--apiserver-advertise-address</code>替换成你自己的</p>
+<p>执行之后，输出如下：</p>
+<div class="highlight"><pre><span></span><code>sys-1@305-1:~$ sudo kubeadm init --pod-network-cidr<span class="o">=</span><span class="m">10</span>.244.0.0/16 --apiserver-advertise-address<span class="o">=</span><span class="m">192</span>.168.1.151
+<span class="o">[</span>init<span class="o">]</span> Using Kubernetes version: v1.22.2
+<span class="o">[</span>preflight<span class="o">]</span> Running pre-flight checks
+<span class="o">[</span>preflight<span class="o">]</span> Pulling images required <span class="k">for</span> setting up a Kubernetes cluster
+<span class="o">[</span>preflight<span class="o">]</span> This might take a minute or two, depending on the speed of your internet connection
+<span class="o">[</span>preflight<span class="o">]</span> You can also perform this action <span class="k">in</span> beforehand using <span class="s1">&#39;kubeadm config images pull&#39;</span>
+<span class="o">[</span>certs<span class="o">]</span> Using certificateDir folder <span class="s2">&quot;/etc/kubernetes/pki&quot;</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;ca&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;apiserver&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> apiserver serving cert is signed <span class="k">for</span> DNS names <span class="o">[</span><span class="m">305</span>-1 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local<span class="o">]</span> and IPs <span class="o">[</span><span class="m">10</span>.96.0.1 <span class="m">192</span>.168.1.151<span class="o">]</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;apiserver-kubelet-client&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;front-proxy-ca&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;front-proxy-client&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;etcd/ca&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;etcd/server&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> etcd/server serving cert is signed <span class="k">for</span> DNS names <span class="o">[</span><span class="m">305</span>-1 localhost<span class="o">]</span> and IPs <span class="o">[</span><span class="m">192</span>.168.1.151 <span class="m">127</span>.0.0.1 ::1<span class="o">]</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;etcd/peer&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> etcd/peer serving cert is signed <span class="k">for</span> DNS names <span class="o">[</span><span class="m">305</span>-1 localhost<span class="o">]</span> and IPs <span class="o">[</span><span class="m">192</span>.168.1.151 <span class="m">127</span>.0.0.1 ::1<span class="o">]</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;etcd/healthcheck-client&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;apiserver-etcd-client&quot;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&quot;sa&quot;</span> key and public key
+<span class="o">[</span>kubeconfig<span class="o">]</span> Using kubeconfig folder <span class="s2">&quot;/etc/kubernetes&quot;</span>
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&quot;admin.conf&quot;</span> kubeconfig file
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&quot;kubelet.conf&quot;</span> kubeconfig file
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&quot;controller-manager.conf&quot;</span> kubeconfig file
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&quot;scheduler.conf&quot;</span> kubeconfig file
+<span class="o">[</span>kubelet-start<span class="o">]</span> Writing kubelet environment file with flags to file <span class="s2">&quot;/var/lib/kubelet/kubeadm-flags.env&quot;</span>
+<span class="o">[</span>kubelet-start<span class="o">]</span> Writing kubelet configuration to file <span class="s2">&quot;/var/lib/kubelet/config.yaml&quot;</span>
+<span class="o">[</span>kubelet-start<span class="o">]</span> Starting the kubelet
+<span class="o">[</span>control-plane<span class="o">]</span> Using manifest folder <span class="s2">&quot;/etc/kubernetes/manifests&quot;</span>
+<span class="o">[</span>control-plane<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="s2">&quot;kube-apiserver&quot;</span>
+<span class="o">[</span>control-plane<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="s2">&quot;kube-controller-manager&quot;</span>
+<span class="o">[</span>control-plane<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="s2">&quot;kube-scheduler&quot;</span>
+<span class="o">[</span>etcd<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="nb">local</span> etcd <span class="k">in</span> <span class="s2">&quot;/etc/kubernetes/manifests&quot;</span>
+<span class="o">[</span>wait-control-plane<span class="o">]</span> Waiting <span class="k">for</span> the kubelet to boot up the control plane as static Pods from directory <span class="s2">&quot;/etc/kubernetes/manifests&quot;</span>. This can take up to 4m0s
+<span class="o">[</span>apiclient<span class="o">]</span> All control plane components are healthy after <span class="m">16</span>.507819 seconds
+<span class="o">[</span>upload-config<span class="o">]</span> Storing the configuration used <span class="k">in</span> ConfigMap <span class="s2">&quot;kubeadm-config&quot;</span> <span class="k">in</span> the <span class="s2">&quot;kube-system&quot;</span> Namespace
+<span class="o">[</span>kubelet<span class="o">]</span> Creating a ConfigMap <span class="s2">&quot;kubelet-config-1.22&quot;</span> <span class="k">in</span> namespace kube-system with the configuration <span class="k">for</span> the kubelets <span class="k">in</span> the cluster
+<span class="o">[</span>upload-certs<span class="o">]</span> Skipping phase. Please see --upload-certs
+<span class="o">[</span>mark-control-plane<span class="o">]</span> Marking the node <span class="m">305</span>-1 as control-plane by adding the labels: <span class="o">[</span>node-role.kubernetes.io/master<span class="o">(</span>deprecated<span class="o">)</span> node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers<span class="o">]</span>
+<span class="o">[</span>mark-control-plane<span class="o">]</span> Marking the node <span class="m">305</span>-1 as control-plane by adding the taints <span class="o">[</span>node-role.kubernetes.io/master:NoSchedule<span class="o">]</span>
+<span class="o">[</span>bootstrap-token<span class="o">]</span> Using token: wr4p75.xkkku659wiqkeh0f
+<span class="o">[</span>bootstrap-token<span class="o">]</span> Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+<span class="o">[</span>bootstrap-token<span class="o">]</span> configured RBAC rules to allow Node Bootstrap tokens to get nodes
+<span class="o">[</span>bootstrap-token<span class="o">]</span> configured RBAC rules to allow Node Bootstrap tokens to post CSRs <span class="k">in</span> order <span class="k">for</span> nodes to get long term certificate credentials
+<span class="o">[</span>bootstrap-token<span class="o">]</span> configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+<span class="o">[</span>bootstrap-token<span class="o">]</span> configured RBAC rules to allow certificate rotation <span class="k">for</span> all node client certificates <span class="k">in</span> the cluster
+<span class="o">[</span>bootstrap-token<span class="o">]</span> Creating the <span class="s2">&quot;cluster-info&quot;</span> ConfigMap <span class="k">in</span> the <span class="s2">&quot;kube-public&quot;</span> namespace
+<span class="o">[</span>kubelet-finalize<span class="o">]</span> Updating <span class="s2">&quot;/etc/kubernetes/kubelet.conf&quot;</span> to point to a rotatable kubelet client certificate and key
+<span class="o">[</span>addons<span class="o">]</span> Applied essential addon: CoreDNS
+<span class="o">[</span>addons<span class="o">]</span> Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p <span class="nv">$HOME</span>/.kube
+  sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
+  sudo chown <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k">$(</span>id -g<span class="k">)</span> <span class="nv">$HOME</span>/.kube/config
+
+Alternatively, <span class="k">if</span> you are the root user, you can run:
+
+  <span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span>/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run <span class="s2">&quot;kubectl apply -f [podnetwork].yaml&quot;</span> with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+<span class="c1"># 通过这里，讲从节点加入到</span>
+kubeadm join <span class="m">192</span>.168.1.151:6443 --token wr4p75.xkkku659wiqkeh0f <span class="se">\</span>
+    --discovery-token-ca-cert-hash sha256:9e90cfc7244e7834d660975f4730aca4b79087ef52e4accc0f4aa62a4f0c066e
+</code></pre></div>
+<h2 id="04-slave">04将 slave 从节点加入</h2>
+<p><strong>需要对每一个节点进行准备工作的设置</strong></p>
+<div class="highlight"><pre><span></span><code>sudo kubeadm join <span class="m">192</span>.168.1.151:6443 --token wr4p75.xkkku659wiqkeh0f --discovery-token-ca-cert-hash sha256:9e90cfc7244e7834d660975f4730aca4b79087ef52e4accc0f4aa62a4f0c066e
+</code></pre></div>
+<p>可以通过kubectl获取节点信息，发现节点还是没有就绪。</p>
+<div class="highlight"><pre><span></span><code>sys-1@305-1:~$ kubectl get nodes
+NAME    STATUS     ROLES                  AGE     VERSION
+<span class="m">305</span>-1   NotReady   control-plane,master   81m     v1.22.2
+<span class="m">305</span>-4   NotReady   &lt;none&gt;                 6m33s   v1.22.2
+<span class="m">305</span>-6   NotReady   &lt;none&gt;                 10s     v1.22.2
+sys-2   NotReady   &lt;none&gt;                 55m     v1.22.2
+</code></pre></div>
+<p>这是因为还没有构建网络。</p>
+<h2 id="05">05接入网络</h2>
+<p>可以部署<code>flannel</code>作为网络插件</p>
+<div class="highlight"><pre><span></span><code>kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+</code></pre></div>
+<p>成功部署之后，你会发现你coredns， 以及你的node都已就绪！</p>
+<div class="highlight"><pre><span></span><code>sys-1@305-1:~$ kubectl get pod -n kube-system -o wide
+NAME                            READY   STATUS    RESTARTS   AGE     IP              NODE     NOMINATED NODE   READINESS GATES
+coredns-78fcd69978-r8qr7        <span class="m">0</span>/1     Pending   <span class="m">0</span>          81m     &lt;none&gt;          &lt;none&gt;   &lt;none&gt;           &lt;none&gt;
+coredns-78fcd69978-x2557        <span class="m">0</span>/1     Pending   <span class="m">0</span>          81m     &lt;none&gt;          &lt;none&gt;   &lt;none&gt;           &lt;none&gt;
+etcd-305-1                      <span class="m">1</span>/1     Running   <span class="m">1</span>          82m     <span class="m">192</span>.168.1.151   <span class="m">305</span>-1    &lt;none&gt;           &lt;none&gt;
+kube-apiserver-305-1            <span class="m">1</span>/1     Running   <span class="m">1</span>          82m     <span class="m">192</span>.168.1.151   <span class="m">305</span>-1    &lt;none&gt;           &lt;none&gt;
+kube-controller-manager-305-1   <span class="m">1</span>/1     Running   <span class="m">1</span>          82m     <span class="m">192</span>.168.1.151   <span class="m">305</span>-1    &lt;none&gt;           &lt;none&gt;
+kube-proxy-9psw2                <span class="m">1</span>/1     Running   <span class="m">0</span>          7m16s   <span class="m">192</span>.168.1.154   <span class="m">305</span>-4    &lt;none&gt;           &lt;none&gt;
+kube-proxy-pbf6v                <span class="m">1</span>/1     Running   <span class="m">0</span>          81m     <span class="m">192</span>.168.1.151   <span class="m">305</span>-1    &lt;none&gt;           &lt;none&gt;
+kube-proxy-tgmm9                <span class="m">1</span>/1     Running   <span class="m">0</span>          56m     <span class="m">192</span>.168.1.152   sys-2    &lt;none&gt;           &lt;none&gt;
+kube-proxy-xp42n                <span class="m">1</span>/1     Running   <span class="m">0</span>          53s     <span class="m">192</span>.168.1.156   <span class="m">305</span>-6    &lt;none&gt;           &lt;none&gt;
+kube-scheduler-305-1            <span class="m">1</span>/1     Running   <span class="m">1</span>          82m     <span class="m">192</span>.168.1.151   <span class="m">305</span>-1    &lt;none&gt;           &lt;none&gt;
+</code></pre></div>
+<p>最后</p>
+<div class="highlight"><pre><span></span><code>sys-1@305-1:~$ kubectl get nodes
+NAME    STATUS   ROLES                  AGE   VERSION
+<span class="m">305</span>-1   Ready    control-plane,master   21h   v1.22.2
+<span class="m">305</span>-4   Ready    &lt;none&gt;                 19h   v1.22.2
+<span class="m">305</span>-6   Ready    &lt;none&gt;                 19h   v1.22.2
+sys-2   Ready    &lt;none&gt;                 20h   v1.22.2
+</code></pre></div>
+<h2 id="06">06至此</h2>
+<p>搭建完成，总结一下有几个方面</p>
+<ul>
+<li>前置准备条件，需要对本地网络进行配置代理，确保能够告诉拉取镜像</li>
+<li>配置不同子节点的过程基本一致，使用kubeadm基本没有任何心智负担</li>
+</ul>
+<p>最后如果有安装上的问题，可以联系进行交流，免费答疑。</p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../../../pl/golang-imp/gmp/" class="md-footer__link md-footer__link--prev" aria-label="上一页: gmp代码解释" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              gmp代码解释
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../mysql/innodb-lock/" class="md-footer__link md-footer__link--next" aria-label="下一页: Innodb中事务隔离级别和锁的关系" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              Innodb中事务隔离级别和锁的关系
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021 - 2022 aschenmaker
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/aschenmaker" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    <a href="https://cqs.es" target="_blank" rel="noopener" title="homepage of me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="m274.69 274.69-37.38-37.38L166 346zM256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm155.85 174.79 14.78-6.13a8 8 0 0 1 10.45 4.34 8 8 0 0 1-4.33 10.46L418 197.57a8 8 0 0 1-10.45-4.33 8 8 0 0 1 4.3-10.45zM314.43 94l6.12-14.78a8 8 0 0 1 10.45-4.3 8 8 0 0 1 4.33 10.45l-6.13 14.78a8 8 0 0 1-10.45 4.33A8 8 0 0 1 314.43 94zM256 60a8 8 0 0 1 8 8v16a8 8 0 0 1-8 8 8 8 0 0 1-8-8V68a8 8 0 0 1 8-8zm-75 14.92a8 8 0 0 1 10.46 4.33L197.57 94a8 8 0 1 1-14.78 6.12l-6.13-14.78A8 8 0 0 1 181 74.92zm-63.58 42.49a8 8 0 0 1 11.31 0L140 128.72a8 8 0 0 1 0 11.28 8 8 0 0 1-11.31 0l-11.31-11.31a8 8 0 0 1 .03-11.28zM60 256a8 8 0 0 1 8-8h16a8 8 0 0 1 8 8 8 8 0 0 1-8 8H68a8 8 0 0 1-8-8zm40.15 73.21-14.78 6.13A8 8 0 0 1 74.92 331a8 8 0 0 1 4.33-10.46L94 314.43a8 8 0 0 1 10.45 4.33 8 8 0 0 1-4.3 10.45zm4.33-136A8 8 0 0 1 94 197.57l-14.78-6.12a8 8 0 0 1-4.3-10.45 8 8 0 0 1 10.45-4.33l14.78 6.13a8 8 0 0 1 4.33 10.44zM197.57 418l-6.12 14.78a8 8 0 0 1-14.79-6.12l6.13-14.78a8 8 0 1 1 14.78 6.12zM264 444a8 8 0 0 1-8 8 8 8 0 0 1-8-8v-16a8 8 0 0 1 8-8 8 8 0 0 1 8 8zm67-6.92a8 8 0 0 1-10.46-4.33L314.43 418a8 8 0 0 1 4.33-10.45 8 8 0 0 1 10.45 4.33l6.13 14.78a8 8 0 0 1-4.34 10.42zm63.58-42.49a8 8 0 0 1-11.31 0L372 383.28a8 8 0 0 1 0-11.28 8 8 0 0 1 11.31 0l11.31 11.31a8 8 0 0 1-.03 11.28zM286.25 286.25 110.34 401.66l115.41-175.91 175.91-115.41zM437.08 331a8 8 0 0 1-10.45 4.33l-14.78-6.13a8 8 0 0 1-4.33-10.45 8 8 0 0 1 10.48-4.32l14.78 6.12a8 8 0 0 1 4.3 10.45zm6.92-67h-16a8 8 0 0 1-8-8 8 8 0 0 1 8-8h16a8 8 0 0 1 8 8 8 8 0 0 1-8 8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../../assets/javascripts/workers/search.01824240.min.js"}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e0abf5b0.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

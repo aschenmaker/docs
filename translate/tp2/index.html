@@ -1,0 +1,1797 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Qiu(aschenmaker)">
+      
+      
+        <link rel="canonical" href="https://docs.cqs.es/translate/tp2/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.0.3">
+    
+    
+      
+        <title>Shazam是如何工作的 - Qiu's doc space</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.62128196.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.9204c3b2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,400i,700%7CFira+Mono&display=fallback">
+        <style>:root{--md-text-font:"Fira Sans";--md-code-font:"Fira Mono"}</style>
+      
+    
+    
+    <script>function __md_scope(e,t,_){return new URL(_||(t===localStorage?"../..":"../.."),location).pathname+"."+e}function __md_get(e,t=localStorage,_){return JSON.parse(t.getItem(__md_scope(e,t,_)))}function __md_set(e,t,_=localStorage,o){try{_.setItem(__md_scope(e,_,o),JSON.stringify(t))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#4how-does-shazam-work-music-recognition-algorithms-fingerprinting-and-processing" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Qiu&#39;s doc space" class="md-header__button md-logo" aria-label="Qiu's doc space" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.03A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.03A6.004 6.004 0 0 0 0 14a6 6 0 0 0 6 6h13a5 5 0 0 0 5-5c0-2.64-2.05-4.78-4.65-4.97z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Qiu's doc space
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Shazam是如何工作的
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aschenmaker/docs/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aschenmaker/docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      首页
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../cs/opsys/op/" class="md-tabs__link">
+        基础&理论
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../algo/sort/sort/" class="md-tabs__link">
+        算法&数据结构
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pl/golang/memesacape/" class="md-tabs__link">
+        编程语言
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../db/k8s/install/" class="md-tabs__link">
+        组件
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../tp1/" class="md-tabs__link md-tabs__link--active">
+        litte blog
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../maybe/maybe/" class="md-tabs__link">
+        或许你也需要这样的站点
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Qiu&#39;s doc space" class="md-nav__button md-logo" aria-label="Qiu's doc space" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.03A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.03A6.004 6.004 0 0 0 0 14a6 6 0 0 0 6 6h13a5 5 0 0 0 5-5c0-2.64-2.05-4.78-4.65-4.97z"/></svg>
+
+    </a>
+    Qiu's doc space
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aschenmaker/docs/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aschenmaker/docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          基础&理论
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="基础&理论" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          基础&理论
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cs/opsys/op/" class="md-nav__link">
+        操作系统
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2">
+          计算机网络
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="计算机网络" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          计算机网络
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cs/network/tcp/" class="md-nav__link">
+        TCP
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cs/linux/linux/" class="md-nav__link">
+        linux
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_4" type="checkbox" id="__nav_2_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_4">
+          分布式
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="分布式" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          分布式
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cs/distributed/cap/" class="md-nav__link">
+        CAP理论
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cs/distributed/alo/" class="md-nav__link">
+        分布式一致性算法
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          算法&数据结构
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="算法&数据结构" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          算法&数据结构
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_1">
+          算法
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="算法" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          算法
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algo/sort/sort/" class="md-nav__link">
+        排序
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          数据结构
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="数据结构" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          数据结构
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algo/alg/heap/" class="md-nav__link">
+        堆以及用go实现
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          编程语言
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="编程语言" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          编程语言
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Golang
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Golang" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Golang
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/golang/memesacape/" class="md-nav__link">
+        内存逃逸
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/golang/gmp/" class="md-nav__link">
+        gmp状态详解
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/golang/struct-align/" class="md-nav__link">
+        Golang内存对齐
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          Golang的底层实现
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Golang的底层实现" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Golang的底层实现
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/golang-imp/interface/" class="md-nav__link">
+        interface的实现
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/golang-imp/gmp/" class="md-nav__link">
+        gmp代码解释
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          组件
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="组件" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          组件
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_1">
+          kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="kubernetes" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          kubernetes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db/k8s/install/" class="md-nav__link">
+        在实验室安装Kubernetes
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_2" type="checkbox" id="__nav_5_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_2">
+          mysql
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="mysql" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          mysql
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db/mysql/innodb-lock/" class="md-nav__link">
+        Innodb中事务隔离级别和锁的关系
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db/mysql/mysql/" class="md-nav__link">
+        快速mysql摘要
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_3" type="checkbox" id="__nav_5_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_3">
+          redis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="redis" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_3">
+          <span class="md-nav__icon md-icon"></span>
+          redis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db/redis/lock/" class="md-nav__link">
+        Redis实现分布式锁锁
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_4" type="checkbox" id="__nav_5_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_4">
+          kafka
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="kafka" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_4">
+          <span class="md-nav__icon md-icon"></span>
+          kafka
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db/kafka/inaction/" class="md-nav__link">
+        快速kafka摘要
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          litte blog
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="litte blog" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          litte blog
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" type="checkbox" id="__nav_6_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_1">
+          翻译计划
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="翻译计划" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          翻译计划
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tp1/" class="md-nav__link">
+        通过漫画-认识Kubernete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Shazam是如何工作的
+      </a>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tp3/" class="md-nav__link">
+        使用golang处理百万请求
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_2" type="checkbox" id="__nav_6_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2">
+          somethings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="somethings" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          somethings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sharing/mac-app/" class="md-nav__link">
+        我在mac下用什么
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_3" type="checkbox" id="__nav_6_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_3">
+          other
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="other" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_3">
+          <span class="md-nav__icon md-icon"></span>
+          other
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../re/fsm-1/" class="md-nav__link">
+        从if-else地狱到状态机流转
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          或许你也需要这样的站点
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="或许你也需要这样的站点" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          或许你也需要这样的站点
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../maybe/maybe/" class="md-nav__link">
+        十分钟快速创建mkdocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../maybe/tocos/" class="md-nav__link">
+        使用腾讯云COS部署
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../maybe/webify/" class="md-nav__link">
+        使用腾讯云Webify进行部署
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/aschenmaker/docs/blob/master/docs/translate/tp2.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+<h1 id="4how-does-shazam-work-music-recognition-algorithms-fingerprinting-and-processing">【翻译计划4】How does Shazam work? Music Recognition Algorithms, Fingerprinting, and Processing</h1>
+<p>Created: Mar 15, 2021 2:22 PM
+link: <a href="https://www.toptal.com/algorithms/shazam-it-music-processing-fingerprinting-and-recognition">https://www.toptal.com/algorithms/shazam-it-music-processing-fingerprinting-and-recognition</a>
+writer: JOVAN JOVANOVIC
+标签: 技术, 音频处理</p>
+<p>Jovan is an entrepreneur and engineer with a strong mathematical background and an extensive skillset for problem-solving.</p>
+<p>【About Project】上一次说到翻译计划，似乎还是16年在点石团队的时候。“Open Eyes Project”，那时候缺乏了推动力。这次重新开始，翻译一些技术文章或者，感兴趣的内容。暂时不给他一个名字吧。<code>新翻译计划</code> 它来了。这是本系列的第二篇翻译文章。</p>
+<p>上周，拿到实习公司的一个需求，对音频进行模式识别，大致能够区分这段音频的内容。这是一个有趣的问题，在寻求解决方案的时候，发现了这样一篇文章。讲述了Shazam（听歌识曲软件）它是怎么做到的。</p>
+<p>以下是本文的正文内容：</p>
+<h1 id="shazam">Shazam是如何工作的？音乐识别算法，声纹以及处理过程</h1>
+<h2 id="introduction">Introduction</h2>
+<p>你在俱乐部或者餐馆里听到了一首熟悉的歌。这首歌真诚的打动了你，尽管你已经听过上千遍，你想明天再次去听这首歌，但是你回忆不出来它的名字了。幸运的是，在这个神奇的世界里，你有一部安装了听歌识曲的手机，你得救了。你可以放轻松了，因为软件会告诉你这首歌的名字，你知道你又能听它了，只到它成为你的一部分……或者你厌倦了它。</p>
+<p>移动技术，和音频信号处理技术的巨大发展，赋予了我们的算法开发人员去创造音乐识别软件的能力。其中最有名的音乐识别软件之一，Shazam。如果你捕捉到一首歌的二十秒，无论是前奏(intro)，主歌(verse)还是副歌(chorus)，它都会为录音样本创造一个声纹（Voice Fingerprint，voiceprint），查询数据库，并使用音乐识别算法告诉你正在听哪一首歌。</p>
+<p><img alt="https://dist.lyneee.com/blog/2021-03-17-1-shazam.png" src="https://dist.lyneee.com/blog/2021-03-17-1-shazam.png" /></p>
+<p>Music recognition software:' Shazam'</p>
+<p>但是Shazam是怎样工作的呢？2003年，Avery Li-Chung Wang向世界展示了Shazam的算法（作为论文被发表）。在这篇文章中，我们将介绍Shazam的音乐识别算法的基本原理。</p>
+<h2 id="analog-to-digital-sampling-a-signal">Analog to Digital - Sampling a Signal</h2>
+<p>模拟信号到数字信号 - 信号采样</p>
+<p>声音到底是什么？它是某种神秘的物质，我们不能触摸，但是可以飞到我们的耳朵里，让我们听到一些东西？</p>
+<p>当然事实并非如此。我们都知道，在现实中，声音是一种震动，它以压力与位移的机械波的形式，通过空气或者水这样的介质传播。当这种震动传到我们的耳朵，特别是鼓膜的时候，耳骨将震动进一步的传到我们的内耳深处的毛细胞（Hair Cell）。最后这些毛细胞产生电脉冲，通过听觉神经传入我们的大脑。</p>
+<p>录音设备相当接近的还原了这个过程，利用声波的压力产生的震动转换成电信号。空气中的实际声波是一种连续的压力信号。麦克风是这种压力信号（声波）遇到的第一个电子元件，将压力信号转换成了模拟电压信号——同样也是连续（continuous）的。这种连续的信号在数组世界里没有多大的用处，所以在处理它之前，必须将它转换成一个离散（discrete）的电信号。这是通过捕获信号振幅的数字值来实现的。</p>
+<p>这种转换涉及到了输入的量化，必然会引起少量的误差。因此，不同于一次性的转换，模拟数字转换器需要对很小的片段执行多次转换，这个过程称为采样。</p>
+<p><img alt="https://dist.lyneee.com/blog/2021-03-17-2-sampling.png" src="https://dist.lyneee.com/blog/2021-03-17-2-sampling.png" /></p>
+<p>Analog to digital signal</p>
+<p>奈奎斯特-香农定理<span class="arithmatex"><span class="MathJax_Preview">^1</span><script type="math/tex">^1</script></span>告诉我们，要捕获连续信号中的某个频率，必须使用特定的采样率。特别是为了捕获所有人类能够在音频信号中听到的所有频率，我们必须在人类听觉范围内的两倍频率对信号进行采样。人类的耳朵能够听到大约从20Hz到20000Hz之间的频率。因此，音频通常以44,100Hz的采样率进行记录。这是光盘的采样率，也是MPEG-1音频（VCD、MP3）最常用的采样率。Sony公司最早采用了这个频率，因为它可以以每秒25帧（PAL）或每秒30帧的速度（使用NTSC单色录像机）录制在经过修改的视频设备中，覆盖20,000Hz的带宽，在当时被认为是可以与专业的录音设备相媲美。所以当你选择采样率的时候，你可能会趋向于选择44,100Hz。</p>
+<h2 id="recording-capturing-the-sound">Recording - Capturing the Sound</h2>
+<p>录音-捕获声音</p>
+<p>记录已经被采样的音频信号很容易。因为现代声卡已经有了模数转换器，只需要一种编程语言，找到一个合适库，设置采样率、通道数量（通常是单声道或立体声），采样大小（比如16位采样）。然后像打开任何输入流一样从声卡读入行写入到字节数组中。下面有一段Java的示例代码：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span> <span class="n">AudioFormat</span> <span class="nf">getFormat</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kt">float</span> <span class="n">sampleRate</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">sampleSizeInBits</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">channels</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">boolean</span> <span class="n">signed</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>     <span class="c1">//表示数据是否是签名的</span>
+        <span class="kt">boolean</span> <span class="n">bigEndian</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>  <span class="c1">//表示数据是否是按照大字节序或者小字节序存储的</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">AudioFormat</span><span class="p">(</span><span class="n">sampleRate</span><span class="p">,</span> <span class="n">sampleSizeIntBits</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">signed</span><span class="p">,</span> <span class="n">bigEndian</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">final</span> <span class="n">AudioFormat</span> <span class="n">format</span> <span class="o">=</span> <span class="n">getFormat</span><span class="p">();</span> <span class="c1">//按照设定填充AudioFormat</span>
+<span class="n">DataLine</span><span class="p">.</span><span class="na">Info</span> <span class="n">info</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataLine</span><span class="p">.</span><span class="na">Info</span><span class="p">(</span><span class="n">TargetDataLine</span><span class="p">.</span><span class="na">class</span><span class="p">,</span> <span class="n">format</span><span class="p">);</span>
+<span class="kd">final</span> <span class="n">TargetDataLine</span> <span class="n">line</span> <span class="o">=</span> <span class="p">(</span><span class="n">TargetDataLine</span><span class="p">)</span> <span class="n">AudioSystem</span><span class="p">.</span><span class="na">getLine</span><span class="p">(</span><span class="n">info</span><span class="p">);</span>
+<span class="n">line</span><span class="p">.</span><span class="na">open</span><span class="p">(</span><span class="n">format</span><span class="p">);</span>
+<span class="n">line</span><span class="p">.</span><span class="na">start</span><span class="p">;</span>
+</code></pre></div>
+<p>只需要从TargetDateLined中读取数据即可。（在这个例子中，running的标志是一个全局变量，它被另外一个线程停止-例如，我们有带有GUI的STOP按钮。）</p>
+<div class="highlight"><pre><span></span><code><span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="p">();</span>
+<span class="n">running</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">running</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="na">length</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">out</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;I/O problems: &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">);</span>
+    <span class="n">System</span><span class="p">.</span><span class="na">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>*一般情况下可以根据Read的字节长度来判断是否写入到buffer中。</p>
+<h2 id="time-domain-and-frequency-domain">Time-Domain and Frequency-Domain</h2>
+<p>时域和频域</p>
+<p>这个字节数组中有记录在时域中的信号。时域（Time-Domain）信号表示的是信号随时间变化的幅度。</p>
+<p>在十九世纪早期，Jean-Baptiste Joseph Fourier发现，任何时域中的信号都等价于一些简单的正弦信号（可能是无限个）的和，给定每个分量的正弦波都有特定的频率、振幅和相位。合在一起形成的原始时域信号的正弦波序列被称为了傅里叶级数。</p>
+<p>换句话说，只要给出组成信号的正弦波所对应的频率、相位和振幅，就可以表示任何时域的信号。这种信号的表示方法被称为了频域（Frequency-Domain）。在某些方面，频域作为时域信号的指纹或者签名的一种类型，提供了动态信号的静态表示。</p>
+<p><img alt="https://dist.lyneee.com/blog/2021-03-18-3-time-domian.png" src="https://dist.lyneee.com/blog/2021-03-18-3-time-domian.png" /></p>
+<p>Time Domain &amp; Frequency Domain</p>
+<p>下面的GIF动画演示了1Hz方波的傅里叶级数，以及如何从正弦分量中产生（近似）方波。信号显示在上面的时域中，频域显示在下面的图像中。</p>
+<p><img alt="https://dist.lyneee.com/blog/2021-03-18-4-square-wave.gif" src="https://dist.lyneee.com/blog/2021-03-18-4-square-wave.gif" /></p>
+<p>1Hz Square Wave</p>
+<p>在频域中分析信号可以极大的简化许多事情。在数字信号处理领域中，这种方法更加的简便，因为工程师们可以见就频谱，并确定哪些频率是存在的，哪些频率是缺失的。之后，你可以做过滤，增加或者减少一些频率，或者从给定的频率中识别确切的音调。</p>
+<h2 id="the-discrete-fourier-transform">The Discrete Fourier Transform</h2>
+<p>离散傅里叶变化</p>
+<p>因此，我们需要找到一种方法，将我们的信号从时域转到频域中来。这里我们使用离散傅立叶变换<span class="arithmatex"><span class="MathJax_Preview">^2</span><script type="math/tex">^2</script></span>（DFT，Discrete Fourier Transform）。 DFT是一种用于对离散（采样）信号执行傅立叶分析的数学方法。通过考虑这些正弦波是否具有相同的采样率，他将由一个函数的等距采样列表，转换成了一个按照频率排列的有限组合的正弦曲线的系数列表。</p>
+<p>计算DFT的最流行的数值算法之一，就是快速傅立叶变换<span class="arithmatex"><span class="MathJax_Preview">^3</span><script type="math/tex">^3</script></span>（FFT，Fast Fourier Transform）。到目前为止，最常用的FFT算法是Cooley-Tukey算法。这是一种分治算法，递归的将DFT分解成许多小的DFT进行计算。直接计算DFT会的时间复杂度是<span class="arithmatex"><span class="MathJax_Preview">O(n^2)</span><script type="math/tex">O(n^2)</script></span> ，使用分治算法将时间复杂度降低到了<span class="arithmatex"><span class="MathJax_Preview">O(n log n)</span><script type="math/tex">O(n log n)</script></span>。</p>
+<p>找到一个合适FFT库并不难，一下列举了几个：</p>
+<ul>
+<li>C - FFTW</li>
+<li>C++ - Eigen FFT</li>
+<li>Java - JTransform</li>
+<li>Python - NumPy</li>
+<li>Ruby - Ruby-FFTW3(Interface to FFTW)</li>
+</ul>
+<p>下面是一个用Java编写的FFT函数的例子。（FFT采用复数作为输入。要理解复数和三角函数之间的关系，建议阅读欧拉公式<span class="arithmatex"><span class="MathJax_Preview">^4</span><script type="math/tex">^4</script></span>）</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span> <span class="kd">static</span> <span class="n">Complex</span><span class="o">[]</span> <span class="nf">fft</span><span class="p">(</span><span class="n">Complex</span><span class="o">[]</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="na">length</span><span class="p">;</span>
+
+    <span class="c1">// fft 偶数项</span>
+    <span class="n">Complex</span><span class="o">[]</span> <span class="n">even</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">[</span><span class="n">N</span> <span class="o">/</span> <span class="mi">2</span><span class="o">]</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">even</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="o">]</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">Complex</span><span class="o">[]</span> <span class="n">q</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">even</span><span class="p">);</span>
+
+    <span class="c1">// fft 奇数项</span>
+    <span class="n">Complex</span><span class="o">[]</span> <span class="n">odd</span> <span class="o">=</span> <span class="n">even</span><span class="p">;</span> <span class="c1">// reuse the array</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">odd</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">Complex</span><span class="o">[]</span> <span class="n">r</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">odd</span><span class="p">);</span>
+
+    <span class="c1">// 合并</span>
+    <span class="n">Complex</span><span class="o">[]</span> <span class="n">y</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">[</span><span class="n">N</span><span class="o">]</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">kth</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">Math</span><span class="p">.</span><span class="na">PI</span> <span class="o">/</span> <span class="n">N</span><span class="p">;</span>
+        <span class="n">Complex</span> <span class="n">wk</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Complex</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="na">cos</span><span class="p">(</span><span class="n">kth</span><span class="p">),</span> <span class="n">Math</span><span class="p">.</span><span class="na">sin</span><span class="p">(</span><span class="n">kth</span><span class="p">));</span>
+        <span class="n">y</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">q</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">.</span><span class="na">plus</span><span class="p">(</span><span class="n">wk</span><span class="p">.</span><span class="na">times</span><span class="p">(</span><span class="n">r</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">));</span>
+        <span class="n">y</span><span class="o">[</span><span class="n">k</span> <span class="o">+</span> <span class="n">N</span> <span class="o">/</span> <span class="mi">2</span><span class="o">]</span> <span class="o">=</span> <span class="n">q</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">.</span><span class="na">minus</span><span class="p">(</span><span class="n">wk</span><span class="p">.</span><span class="na">times</span><span class="p">(</span><span class="n">r</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>下面是一个信号在FFT分析前后的样子：</p>
+<p><img alt="https://dist.lyneee.com/blog/2021-03-18-5-after-fft.png" src="https://dist.lyneee.com/blog/2021-03-18-5-after-fft.png" /></p>
+<p>before &amp; after of FFT</p>
+<h2 id="music-recognition-fingerprinting-a-song">Music Recognition: Fingerprinting a Song</h2>
+<p>音乐识别：通过声纹识别一首歌</p>
+<p>一个使用FFT的副作用是我们丢失了大量关于时间维度的信息。（尽管理论上是可以避免的，但是性能开销是巨大的。）对于一首三分钟的歌曲，我们看见了他们所有的频率，和它们的大小，但是我们不知道它们是什么时候出现在歌曲中的。但是这个关键信息（出现频率的时间点）才使得这首歌成为了这首歌。无论如何，我们都需要每个频率出现的时间点。</p>
+<p>这就是为什么我需要引入滑动窗口（sliding window），或者说数据块（chunk of data），只转换一部分信息。每个快的大小可以用几种不同的方法来确定。例如，我们用立体声，16-bit采样在44.1kHz录制声音，这种声音的一秒钟是<span class="arithmatex"><span class="MathJax_Preview">44,100 samples*2 bytes * 2channels \approx176kB</span><script type="math/tex">44,100 samples*2 bytes * 2channels \approx176kB</script></span>。如果我们选择4kB作为块的大小，那么我们每秒将有44个数据块进行分析。这个粒度足够用来进行音频识别所需的详细分析。</p>
+<p>现在回到编程，还是Java：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">byte</span> <span class="n">audio</span> <span class="o">[]</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="na">toByteArray</span><span class="p">()</span>
+<span class="kt">int</span> <span class="n">totalSize</span> <span class="o">=</span> <span class="n">audio</span><span class="p">.</span><span class="na">length</span>
+<span class="kt">int</span> <span class="n">sampledChunkSize</span> <span class="o">=</span> <span class="n">totalSize</span><span class="o">/</span><span class="n">chunkSize</span><span class="p">;</span>
+<span class="n">Complex</span><span class="o">[][]</span> <span class="n">result</span> <span class="o">=</span> <span class="n">ComplexMatrix</span><span class="o">[</span><span class="n">sampledChunkSize</span><span class="o">][]</span><span class="p">;</span>
+
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">sampledChunkSize</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Complex</span><span class="o">[</span><span class="n">chunkSize</span><span class="o">]</span> <span class="n">complexArray</span><span class="p">;</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">chunkSize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 这里将样本块放入到虚部为0的复数中</span>
+    <span class="n">complexArray</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">Complex</span><span class="p">(</span><span class="n">audio</span><span class="o">[</span><span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="n">chunkSize</span><span class="p">)</span><span class="o">+</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">result</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">FFT</span><span class="p">.</span><span class="na">fft</span><span class="p">(</span><span class="n">complexArray</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>在for循环内部，我们将时域数据（the samples，采样）放入到一个虚部为0的复数中。在外部循环中，我们迭代便利所有的块对每一个进行FFT分析。</p>
+<p>一旦我们掌握了信号频率的组成信息，我们就可以开始形成歌曲的数字指纹。这是整个Shazam音频识别过程中最重要的那部分。这里的主要挑战是在已经捕获的频率海洋里去区分，哪些频率是最重要的。直观地，我们搜索具有最高幅度（峰值）的频率。</p>
+<p>然而在一首歌中，最强的频率范围可能在低音<span class="arithmatex"><span class="MathJax_Preview">C-C_1</span><script type="math/tex">C-C_1</script></span> （32.70Hz）和高音<span class="arithmatex"><span class="MathJax_Preview">C-C_8</span><script type="math/tex">C-C_8</script></span>（4186.01Hz）之间变化。这覆盖了一个巨大的范围。因此，预期一次性分析完整个频率的范围，我们可以选择几个较小的范围，这些范围是根据重要音乐成分的共同频选择的，并分别进行分析。例如，我们可以选择this guy<span class="arithmatex"><span class="MathJax_Preview">^5</span><script type="math/tex">^5</script></span>为实现Shazam的算法所选择的时间间隔。这些间隔是30Hz-40Hz，40Hz-80Hz和80Hz-120Hz为低音(包括低音吉他) ，和120Hz-180Hz和180Hz-300Hz为中等和高音(包括人声和大多数其他乐器)。</p>
+<p>现在在每个时间间隔内，我们可以简单地识别出峰值的频率。这些信息形成了歌曲这一数据块的签名，而这些签名成为了整首歌曲声纹的一部分。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span> <span class="kd">final</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">RANGE</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]</span> <span class="p">{</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">300</span> <span class="p">};</span>
+
+<span class="c1">// 获取频率所在范围</span>
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getIndex</span><span class="p">(</span><span class="kt">int</span> <span class="n">freq</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">RANGE</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">freq</span><span class="p">)</span>
+        <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// result is complex matrix obtained in previous step</span>
+<span class="c1">// 结果是上一步所获取的复数矩阵（上一个代码块⬆️）</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">result</span><span class="p">.</span><span class="na">length</span><span class="p">;</span> <span class="n">t</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">freq</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span> <span class="n">freq</span> <span class="o">&lt;</span> <span class="mi">300</span> <span class="p">;</span> <span class="n">freq</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 获取幅度</span>
+        <span class="kt">double</span> <span class="n">mag</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="na">log</span><span class="p">(</span><span class="n">results</span><span class="o">[</span><span class="n">t</span><span class="o">][</span><span class="n">freq</span><span class="o">]</span><span class="p">.</span><span class="na">abs</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+        <span class="c1">// 获取频率所在范围</span>
+        <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">getIndex</span><span class="p">(</span><span class="n">freq</span><span class="p">);</span>
+
+        <span class="c1">// 保存最高的幅度和对应的频率:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mag</span> <span class="o">&gt;</span> <span class="n">highscores</span><span class="o">[</span><span class="n">t</span><span class="o">][</span><span class="n">index</span><span class="o">]</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">points</span><span class="o">[</span><span class="n">t</span><span class="o">][</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">freq</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 形成hash tag</span>
+    <span class="kt">long</span> <span class="n">h</span> <span class="o">=</span> <span class="n">hash</span><span class="p">(</span><span class="n">points</span><span class="o">[</span><span class="n">t</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">points</span><span class="o">[</span><span class="n">t</span><span class="o">][</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">points</span><span class="o">[</span><span class="n">t</span><span class="o">][</span><span class="mi">2</span><span class="o">]</span><span class="p">,</span> <span class="n">points</span><span class="o">[</span><span class="n">t</span><span class="o">][</span><span class="mi">3</span><span class="o">]</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">FUZ_FACTOR</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="kd">private</span> <span class="kt">long</span> <span class="nf">hash</span><span class="p">(</span><span class="kt">long</span> <span class="n">p1</span><span class="p">,</span> <span class="kt">long</span> <span class="n">p2</span><span class="p">,</span> <span class="kt">long</span> <span class="n">p3</span><span class="p">,</span> <span class="kt">long</span> <span class="n">p4</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">p4</span> <span class="o">-</span> <span class="p">(</span><span class="n">p4</span> <span class="o">%</span> <span class="n">FUZ_FACTOR</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100000000</span> <span class="o">+</span> <span class="p">(</span><span class="n">p3</span> <span class="o">-</span> <span class="p">(</span><span class="n">p3</span> <span class="o">%</span> <span class="n">FUZ_FACTOR</span><span class="p">))</span>
+            <span class="o">*</span> <span class="mi">100000</span> <span class="o">+</span> <span class="p">(</span><span class="n">p2</span> <span class="o">-</span> <span class="p">(</span><span class="n">p2</span> <span class="o">%</span> <span class="n">FUZ_FACTOR</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">p1</span> <span class="o">-</span> <span class="p">(</span><span class="n">p1</span> <span class="o">%</span> <span class="n">FUZ_FACTOR</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>需要注意的是，我们必须假定录音不是在完美的条件下完成的，因此我们必须包含模糊因子（fuzz factor）。模糊因子的分析在一个真实的系统中必须被重视到，程序应该有一个根据记录条件设置这个参数的选项。</p>
+<p>为了方便搜索，这个签名成为了hash表中的key。对应的value则是出现这组频率在歌曲中的时间，以及歌曲的ID和歌手。下面是这些歌曲如何记录出现在数据库中的示例。</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">\begin{array}{|c|c|c|}\hline Hash\ Tag&amp;Time\ in\ Seconds&amp;Song\\\hline  30\  51\  99\  121\ 195&amp;53.52&amp;Song\ A\ by\ artist\ A\\\hline 33\  56\  92\  151\ 185&amp;12.32&amp;Song\ B\ by\ artist\ B\\\hline 39\  26\  89\  141\ 251&amp;15.34&amp;Song\ C\ by\ artist\ C\\\hline 32\  67\  100\  128\ 270&amp;78.43&amp;Song\ D\ by\ artist\ D\\\hline 30\  51\  99\  121\ 195&amp;10.89&amp;Song\ E\ by\ artist\ E\\\hline 34\  57\  95\  111\ 200&amp;54.52&amp;Song\ A\ by\ artist\ A\\\hline 34\  41\  93\  161\ 202&amp;11.89&amp;Song\ E\ by\ artist\ E\\\hline \end{array}</div>
+<script type="math/tex; mode=display">\begin{array}{|c|c|c|}\hline Hash\ Tag&Time\ in\ Seconds&Song\\\hline  30\  51\  99\  121\ 195&53.52&Song\ A\ by\ artist\ A\\\hline 33\  56\  92\  151\ 185&12.32&Song\ B\ by\ artist\ B\\\hline 39\  26\  89\  141\ 251&15.34&Song\ C\ by\ artist\ C\\\hline 32\  67\  100\  128\ 270&78.43&Song\ D\ by\ artist\ D\\\hline 30\  51\  99\  121\ 195&10.89&Song\ E\ by\ artist\ E\\\hline 34\  57\  95\  111\ 200&54.52&Song\ A\ by\ artist\ A\\\hline 34\  41\  93\  161\ 202&11.89&Song\ E\ by\ artist\ E\\\hline \end{array}</script>
+</div>
+<p>如果我们通过这个音乐识别过程运行一个完整的歌曲库，我们可以建立一个数据库，其中包括了， 每首歌曲的完整声纹。</p>
+<h2 id="the-music-algorithm-song-identification">The Music Algorithm: Song Identification</h2>
+<p>音乐算法：歌曲识别</p>
+<p>为了识别当前在俱乐部播放的歌，我们用手机录制了这首歌，然后像上面一样通过相同的声纹识别程序进行处理。接着，我们在数据库中搜索匹配的hash标签。</p>
+<p>碰巧，许多hash标签将对应着多首歌的音乐标志符。例如，某一首歌的a的某一段听起来就像是歌曲e的某一段。当然，这并不奇怪，因为音乐家们总是会彼此“借鉴“一些licks和riffs，而且现在有的制作人会从别的歌曲中采样。每次我们匹配一个hash 标签的时候，可能匹配的数量就会变得更少，但是这个信息本省可能不会将匹配范围缩小到一首歌中。所以还有一件事情需要去检查我们的识别算法，就是时间。</p>
+<p>我们在俱乐部中记录的歌曲样本可能来自于音乐的任何一部分，因此我们不能简单将匹配的Hash的时间戳和样本的时间戳进行配对。然而，使用多个hash进行匹配，我们可以分析出相对的时间，从而增加确定性。</p>
+<p>例如你看上面的表格，你会发现hash标签为30 51 99 121 195分别对应的是Song A和Song E。如果一秒后，我们匹配到的hash是34 57 95 111 200，那更加的匹配Song A，在这种情况下，我们知道hash和时间差都匹配。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Class that represents specific moment in a song</span>
+<span class="c1">// 代表了歌曲特定时刻的类</span>
+<span class="kd">private</span> <span class="kd">class</span> <span class="nc">DataPoint</span> <span class="p">{</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">time</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">songId</span><span class="p">;</span>
+
+    <span class="kd">public</span> <span class="nf">DataPoint</span><span class="p">(</span><span class="kt">int</span> <span class="n">songId</span><span class="p">,</span> <span class="kt">int</span> <span class="n">time</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">songId</span> <span class="o">=</span> <span class="n">songId</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">time</span> <span class="o">=</span> <span class="n">time</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getTime</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">time</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getSongId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">songId</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>我们将<span class="arithmatex"><span class="MathJax_Preview">i_1</span><script type="math/tex">i_1</script></span>和<span class="arithmatex"><span class="MathJax_Preview">i_2</span><script type="math/tex">i_2</script></span>作为录制歌曲中的时刻，<span class="arithmatex"><span class="MathJax_Preview">j_1</span><script type="math/tex">j_1</script></span>和<span class="arithmatex"><span class="MathJax_Preview">j_2</span><script type="math/tex">j_2</script></span>作为数据库中的时刻。我们可说我们有两个时间差的匹配：</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">RecordedHash(i_1) = SongInDataBaseHash(j_1)  \\ \&amp;\&amp; \\ RecordedHash(i_2) = SongInDataBaseHash(j_2)</div>
+<script type="math/tex; mode=display">RecordedHash(i_1) = SongInDataBaseHash(j_1)  \\ \&\& \\ RecordedHash(i_2) = SongInDataBaseHash(j_2)</script>
+</div>
+<div class="arithmatex">
+<div class="MathJax_Preview">\\ abs(i_1-i_2)=abs(j_1-j_2)</div>
+<script type="math/tex; mode=display">\\ abs(i_1-i_2)=abs(j_1-j_2)</script>
+</div>
+<p>这使得我们能够灵活的从头，中间，或者结尾录制歌曲。</p>
+<p>最后，我们在俱乐部录制的歌曲在任何一个时刻都不可能跟我们在图书馆录制的一首歌的每一个对应时刻相匹配。录音会包含很多噪音，这些噪音会在匹配中引入一些错误。所以，我们没有试图去从匹配列表中移除，除了正确歌曲以外的所有歌曲，而是在最后，我们将所有匹配的歌曲按照可能性进行排序，而需要返回的则是排名列表中的第一个歌曲。</p>
+<h2 id="from-top-to-bottom">From Top to Bottom</h2>
+<p>自顶向下</p>
+<p>要回答这个问题，“How does Shazam work?”下面则是整个音乐识别和匹配过程的概述，自顶向下：</p>
+<p><img alt="https://dist.lyneee.com/blog/2021-03-23-6-top2bottom.png" src="https://dist.lyneee.com/blog/2021-03-23-6-top2bottom.png" /></p>
+<p>Processing Pipeline of Shazam</p>
+<p>对于这种系统来说，数据库可能会变得非常庞大，因此使用一种可伸缩的数据库是非常重要的。它不需要关系，而且数据模型也很简单，所以使用一种No SQL数据库是一个很好的选择。</p>
+<h2 id="how-does-shazam-work-now-you-know">How Does Shazam Work? Now You Know</h2>
+<p>现在你知道了</p>
+<p>这种歌曲识别软件可以用来寻找歌曲之间的相似性。现在你已经了解了 Shazam 的工作原理，您可以看到除了播放出租车收音机播放的怀旧歌曲 Shazaming 之外，它还具有其他应用。例如，它可以帮助找到音乐中的抄袭，或者找出谁是布鲁斯、爵士、摇滚、流行音乐或任何其他流派先驱的最初灵感来源。</p>
+<p>也许一个好的实验是用巴赫、贝多芬、维瓦尔第、瓦格纳、肖邦和莫扎特的古典音乐填充歌曲样本数据库，试着找出歌曲之间的相似之处。你可能会认为连鲍勃 · 迪伦、猫王和罗伯特 · 约翰逊都是剽窃者！</p>
+<p>但是我们仍然不能给他们定罪。</p>
+<p>因为音乐只是我们在头脑中听到、记忆和不断重复的一个波，它在脑海中进化和演变，直到我们录制了它，然后传递给下一个伟大的音乐天才。</p>
+<p>译完这篇，其实已经能够解决我在工作场景中遇到的问题，对几种录音进行，捕获，转换到频域，计算声纹，然后匹配两个时间差。我非常认同最后一段话，这段本不应该出现在技术文章中的话。美好的事情应该被传递下一个人脑海，给普通人带来快乐，给天才们创造和发挥的灵感。技术也是，就像大家所信奉的开源精神一样，带给这个世界以改变。</p>
+<p>作为收尾，我会去实现一个Go的Shazam算法，可能已经有了。至此，翻译计划的第三篇已经完成，计划也迎来了一位新的小伙伴，下一篇文章将是由他进行选题，然后共同翻译。</p>
+<h2 id="_1">参考</h2>
+<p>[1]奈奎斯特-香农定理： <a href="https://en.wikipedia.org/wiki/Nyquist%E2%80%93Shannon_sampling_theorem">https://en.wikipedia.org/wiki/Nyquist–Shannon_sampling_theorem</a></p>
+<p>[2]离散傅立叶变换： <a href="https://en.wikipedia.org/wiki/Discrete_Fourier_transform">https://en.wikipedia.org/wiki/Discrete_Fourier_transform</a></p>
+<p>[3]Cooley-Tukey算法:<a href="https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm">https://en.wikipedia.org/wiki/Cooley–Tukey_FFT_algorithm</a></p>
+<p>[4]欧拉公式定义复数下三角函数</p>
+<p><span class="arithmatex"><span class="MathJax_Preview">\sin z = \frac{e^{iz}-e^{-iz}}{2i}</span><script type="math/tex">\sin z = \frac{e^{iz}-e^{-iz}}{2i}</script></span></p>
+<p><span class="arithmatex"><span class="MathJax_Preview">\cos z = \frac{e^{iz}+e^{-iz}}{2}</span><script type="math/tex">\cos z = \frac{e^{iz}+e^{-iz}}{2}</script></span></p>
+<p><span class="arithmatex"><span class="MathJax_Preview">e^{ix}=\cos x +i \sin x</span><script type="math/tex">e^{ix}=\cos x +i \sin x</script></span>  </p>
+<p><span class="arithmatex"><span class="MathJax_Preview">e^{-ix}=\cos x -i \sin x</span><script type="math/tex">e^{-ix}=\cos x -i \sin x</script></span></p>
+<p>[5]用Java实现Shazam 算法： <a href="https://www.royvanrijn.com/blog/2010/06/creating-shazam-in-java/">https://www.royvanrijn.com/blog/2010/06/creating-shazam-in-java/</a></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../tp1/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 通过漫画-认识Kubernete" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              通过漫画-认识Kubernete
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../tp3/" class="md-footer__link md-footer__link--next" aria-label="下一页: 使用golang处理百万请求" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              使用golang处理百万请求
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021 - 2022 aschenmaker
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/aschenmaker" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    <a href="https://cqs.es" target="_blank" rel="noopener" title="homepage of me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="m274.69 274.69-37.38-37.38L166 346zM256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm155.85 174.79 14.78-6.13a8 8 0 0 1 10.45 4.34 8 8 0 0 1-4.33 10.46L418 197.57a8 8 0 0 1-10.45-4.33 8 8 0 0 1 4.3-10.45zM314.43 94l6.12-14.78a8 8 0 0 1 10.45-4.3 8 8 0 0 1 4.33 10.45l-6.13 14.78a8 8 0 0 1-10.45 4.33A8 8 0 0 1 314.43 94zM256 60a8 8 0 0 1 8 8v16a8 8 0 0 1-8 8 8 8 0 0 1-8-8V68a8 8 0 0 1 8-8zm-75 14.92a8 8 0 0 1 10.46 4.33L197.57 94a8 8 0 1 1-14.78 6.12l-6.13-14.78A8 8 0 0 1 181 74.92zm-63.58 42.49a8 8 0 0 1 11.31 0L140 128.72a8 8 0 0 1 0 11.28 8 8 0 0 1-11.31 0l-11.31-11.31a8 8 0 0 1 .03-11.28zM60 256a8 8 0 0 1 8-8h16a8 8 0 0 1 8 8 8 8 0 0 1-8 8H68a8 8 0 0 1-8-8zm40.15 73.21-14.78 6.13A8 8 0 0 1 74.92 331a8 8 0 0 1 4.33-10.46L94 314.43a8 8 0 0 1 10.45 4.33 8 8 0 0 1-4.3 10.45zm4.33-136A8 8 0 0 1 94 197.57l-14.78-6.12a8 8 0 0 1-4.3-10.45 8 8 0 0 1 10.45-4.33l14.78 6.13a8 8 0 0 1 4.33 10.44zM197.57 418l-6.12 14.78a8 8 0 0 1-14.79-6.12l6.13-14.78a8 8 0 1 1 14.78 6.12zM264 444a8 8 0 0 1-8 8 8 8 0 0 1-8-8v-16a8 8 0 0 1 8-8 8 8 0 0 1 8 8zm67-6.92a8 8 0 0 1-10.46-4.33L314.43 418a8 8 0 0 1 4.33-10.45 8 8 0 0 1 10.45 4.33l6.13 14.78a8 8 0 0 1-4.34 10.42zm63.58-42.49a8 8 0 0 1-11.31 0L372 383.28a8 8 0 0 1 0-11.28 8 8 0 0 1 11.31 0l11.31 11.31a8 8 0 0 1-.03 11.28zM286.25 286.25 110.34 401.66l115.41-175.91 175.91-115.41zM437.08 331a8 8 0 0 1-10.45 4.33l-14.78-6.13a8 8 0 0 1-4.33-10.45 8 8 0 0 1 10.48-4.32l14.78 6.12a8 8 0 0 1 4.3 10.45zm6.92-67h-16a8 8 0 0 1-8-8 8 8 0 0 1 8-8h16a8 8 0 0 1 8 8 8 8 0 0 1-8 8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.01824240.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e0abf5b0.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
