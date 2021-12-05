@@ -119,6 +119,8 @@ nav:
       - 通过漫画-认识Kubernete: translate/tp1.md
       - Shazam是如何工作的: translate/tp2.md
       - 使用golang处理百万请求: translate/tp3.md
+    - somethings:
+      - 我在mac下用什么: translate/sharing/mac-app.md
     - other:
       - 从if-else地狱到状态机流转: translate/re/fsm-1.md
   - 或许你也需要这样的站点: 
